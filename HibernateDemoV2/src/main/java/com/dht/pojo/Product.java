@@ -6,6 +6,9 @@ package com.dht.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,8 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlTransient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +32,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "product")
 public class Product implements Serializable {
+
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -42,4 +49,18 @@ public class Product implements Serializable {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    private Set<OrderDetail> orderDetailSet;
+
+    public Product() {
+    }
+
+    public Product(Integer id) {
+        this.id = id;
+    }
+
+    public Product(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
