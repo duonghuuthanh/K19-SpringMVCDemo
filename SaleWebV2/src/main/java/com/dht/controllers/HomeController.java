@@ -6,11 +6,16 @@ package com.dht.controllers;
 
 import com.dht.pojo.Category;
 import com.dht.pojo.Product;
+import com.dht.service.CategoryService;
+import com.dht.service.ProductService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -18,19 +23,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class HomeController {
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private CategoryService categoryService;
+    
     @RequestMapping("/")
-    public String index(Model model) {
-        List<Category> cates = new ArrayList<>();
-        cates.add(new Category(1, "Mobile"));
-        cates.add(new Category(1, "Tablet"));
-        cates.add(new Category(1, "Desktop"));
-        
-        List<Product> products = new ArrayList<>();
-        products.add(new Product(1, "iPad Pro 2022", "https://res.cloudinary.com/dxxwcby8l/image/upload/v1647248652/dkeolz3ghc0eino87iec.jpg", 24000000l));
-        products.add(new Product(1, "Galaxy Tab S8", "https://res.cloudinary.com/dxxwcby8l/image/upload/v1647248722/r8sjly3st7estapvj19u.jpg", 24000000l));
-        products.add(new Product(1, "iPad Pro 2022", "https://res.cloudinary.com/dxxwcby8l/image/upload/v1647248652/dkeolz3ghc0eino87iec.jpg", 24000000l));
-        products.add(new Product(1, "iPad Pro 2022", "https://res.cloudinary.com/dxxwcby8l/image/upload/v1647248722/r8sjly3st7estapvj19u.jpg", 24000000l));
-        products.add(new Product(1, "iPad Pro 2022", "https://res.cloudinary.com/dxxwcby8l/image/upload/v1647248722/r8sjly3st7estapvj19u.jpg", 24000000l));
+    public String index(Model model, @RequestParam Map<String, String> params) {
+        List<Category> cates = this.categoryService.getCategories();
+        List<Product> products = this.productService.getProducts(params);
         
         model.addAttribute("categories", cates);
         model.addAttribute("products", products);
