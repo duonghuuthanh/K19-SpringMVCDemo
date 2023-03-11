@@ -90,13 +90,6 @@ public class Product implements Serializable {
         this.id = id;
         this.name = name;
     }
-    
-    public Product(Integer id, String name, String image, Long price) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        this.price = price;
-    }
 
     public Integer getId() {
         return id;
