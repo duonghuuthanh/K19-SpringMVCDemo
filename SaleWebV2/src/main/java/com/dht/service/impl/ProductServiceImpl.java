@@ -4,11 +4,16 @@
  */
 package com.dht.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.dht.pojo.Product;
 import com.dht.repository.ProductRepository;
 import com.dht.service.ProductService;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +25,32 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepo;
+    @Autowired
+    private Cloudinary cloudinary;
 
     @Override
     public List<Product> getProducts(Map<String, String> params) {
         return this.productRepo.getProducts(params);
+    }
+
+    @Override
+    public Product getProductById(int id) {
+        return this.productRepo.getProductById(id);
+    }
+
+    @Override
+    public boolean addOrUpdateProduct(Product p) {
+        if (p.getFile() != null) {
+            try {
+                Map rs = this.cloudinary.uploader().upload(p.getFile().getBytes(),
+                        ObjectUtils.asMap("resource_type", "auto"));
+                p.setImage(rs.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return this.productRepo.addOrUpdateProduct(p);
     }
     
 }

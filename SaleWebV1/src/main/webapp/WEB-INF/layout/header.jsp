@@ -17,7 +17,8 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Trang chủ</a>
+                        <c:url value="/" var="action" />
+                        <a class="nav-link" href="${action}">Trang chủ</a>
                     </li>
                     <c:forEach items="${categories}" var="c">
                         <c:url value="/" var="url">

@@ -13,6 +13,7 @@ import java.util.Map;
  * @author admin
  */
 public interface ProductRepository {
-
     List<Product> getProducts(Map<String, String> params);
+    Product getProductById(int id);
+    boolean addOrUpdateProduct(Product p);
 }

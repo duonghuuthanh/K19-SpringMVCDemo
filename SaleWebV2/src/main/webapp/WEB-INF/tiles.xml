@@ -14,5 +14,13 @@
         <put-attribute name="title" value="Trang chủ" />
         <put-attribute name="content" value="/WEB-INF/pages/index.jsp" />
     </definition>
+    <definition name="product-detail" extends="baseLayout">
+        <put-attribute name="title" value="Chi tiết sản phẩm" />
+        <put-attribute name="content" value="/WEB-INF/pages/product-detail.jsp" />
+    </definition>
+    <definition name="products" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý sản phẩm" />
+        <put-attribute name="content" value="/WEB-INF/pages/products.jsp" />
+    </definition>
 </tiles-definitions>
 
