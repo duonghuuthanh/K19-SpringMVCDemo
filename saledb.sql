@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.15, for macos10.14 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
 -- Host: localhost    Database: saledb
 -- ------------------------------------------------------
--- Server version	8.0.15
+-- Server version	8.0.29
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8 ;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,13 +21,13 @@
 
 DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,19 +46,19 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `order_detail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_detail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `order_id` int NOT NULL,
+  `product_id` int NOT NULL,
   `unit_price` decimal(10,0) DEFAULT '0',
-  `num` varchar(45) COLLATE utf8_unicode_ci DEFAULT '0',
+  `num` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `FK_ORDERDETAIL_ORDER_idx` (`order_id`),
   KEY `FK_ORDERDETAIL_PRODUCT_idx` (`product_id`),
   CONSTRAINT `FK_ORDERDETAIL_ORDER` FOREIGN KEY (`order_id`) REFERENCES `sale_order` (`id`),
   CONSTRAINT `FK_ORDERDETAIL_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `order_detail` (
 
 LOCK TABLES `order_detail` WRITE;
 /*!40000 ALTER TABLE `order_detail` DISABLE KEYS */;
-INSERT INTO `order_detail` VALUES (5,4,1,12500000,'1'),(6,4,2,21000000,'1'),(7,4,3,17000000,'1'),(8,5,1,12500000,'1'),(9,5,3,17000000,'1'),(10,5,7,10540000,'1'),(11,6,2,21000000,'1'),(12,7,5,18600000,'1'),(13,7,6,12990000,'3'),(14,8,1,12500000,'1'),(15,8,2,21000000,'2'),(16,8,3,17000000,'1'),(17,9,1,12500000,'1'),(18,9,2,21000000,'2'),(19,10,4,28000000,'1'),(20,10,5,18600000,'5'),(21,11,1,12500000,'2'),(22,11,2,21000000,'2'),(23,11,3,17000000,'1'),(24,13,2,0,'0'),(25,13,1,0,'0');
+INSERT INTO `order_detail` VALUES (7,4,3,17000000,'1'),(9,5,3,17000000,'1'),(10,5,7,10540000,'1'),(12,7,5,18600000,'1'),(13,7,6,12990000,'3'),(16,8,3,17000000,'1'),(19,10,4,28000000,'1'),(20,10,5,18600000,'5'),(23,11,3,17000000,'1');
 /*!40000 ALTER TABLE `order_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,21 +77,21 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
   `price` decimal(10,0) DEFAULT '0',
-  `manufacturer` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `image` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `manufacturer` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `image` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `active` bit(1) DEFAULT b'1',
-  `category_id` int(11) NOT NULL,
+  `category_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_PRODUCE_CATEGORY_idx` (`category_id`),
   CONSTRAINT `FK_PRODUCE_CATEGORY` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +100,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'iPhone 7 Plus','32GB',11000000,'Apple','/images/uploads/iphone-7-plus.png','2020-01-20 00:00:00',_binary '',1),(2,'Galaxy Note 10','64GB',21000000,'Samsung','/images/uploads/samsung-galaxy-note-10.png','2020-01-08 00:00:00',_binary '',1),(3,'iPhone 11','64GB',17000000,'Apple','/images/uploads/iphone-11.png','2020-01-12 00:00:00',_binary '',1),(4,'iPhone 11 Pro Max','64GB',28000000,'Apple','/images/uploads/iphone-11-pro-max.png','2020-01-15 00:00:00',_binary '',1),(5,'Galaxy Tab S6','128GB',18600000,'Samsung','/images/uploads/samsung-galaxy-tab-s6.png','2020-01-12 00:00:00',_binary '',2),(6,'iPad Mini 7.9','64GB, Wifi',12990000,'Apple','/images/uploads/ipad-mini.png','2020-01-18 00:00:00',_binary '',2),(7,'iPad 10.2 inch','32GB, Wifi Cellular',10540000,'Apple','/images/uploads/ipad-10-2-inch-wifi-cellular-32gb.png','2020-01-26 00:00:00',_binary '',2),(16,'iPhone 12 Pro','Apple',30000000,NULL,NULL,NULL,_binary '',1),(17,'iPhone 12 Pro','Apple',30000000,NULL,NULL,NULL,_binary '',1),(18,'iPhone 12 Pro','Apple',30000000,NULL,NULL,NULL,_binary '',1);
+INSERT INTO `product` VALUES (3,'iPhone 11','64GB',17000000,NULL,'https://res.cloudinary.com/dxxwcby8l/image/upload/v1679731990/k9dg9v2fnnrbe0jddswv.jpg',NULL,NULL,1),(4,'iPhone 11 Pro Max','64GB',28000000,'Apple','https://res.cloudinary.com/dxxwcby8l/image/upload/v1679134375/ckvdo90ltnfns77zf1xb.jpg','2020-01-15 00:00:00',_binary '',1),(5,'Galaxy Tab S6','128GB',18600000,NULL,'https://res.cloudinary.com/dxxwcby8l/image/upload/v1679731974/jlad6jqdc69cjrh9zggq.jpg',NULL,NULL,2),(6,'iPad Mini 7.9','64GB, Wifi',12990000,'Apple','https://res.cloudinary.com/dxxwcby8l/image/upload/v1679126974/vz4jnpuqydszbtrcbcnd.jpg','2020-01-18 00:00:00',_binary '',2),(7,'iPad 10.2 inch','32GB, Wifi Cellular',10540000,'Apple','https://res.cloudinary.com/dxxwcby8l/image/upload/v1679126974/vz4jnpuqydszbtrcbcnd.jpg','2020-01-26 00:00:00',_binary '',2),(19,'iPhone 13','Apple',1500000,NULL,'https://res.cloudinary.com/dxxwcby8l/image/upload/v1679729888/ahwad5grrwwvpdpxcjpp.jpg',NULL,NULL,4),(20,'iPhone 13 pro max',NULL,12000,NULL,'https://res.cloudinary.com/dxxwcby8l/image/upload/v1679738736/rmdudpsj4m3map23s8b0.jpg',NULL,NULL,4),(24,'iPhone 24',NULL,240000,NULL,'https://res.cloudinary.com/dxxwcby8l/image/upload/v1679738642/zgsrphegfyvgztzl6qnl.jpg',NULL,NULL,2);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,16 +110,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `sale_order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sale_order` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `amount` decimal(10,0) DEFAULT NULL,
   `created_date` datetime NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_ORDER_USER_idx` (`user_id`),
   CONSTRAINT `FK_ORDER_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,19 +138,19 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `last_name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `username` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `last_name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
   `active` bit(1) DEFAULT b'1',
-  `user_role` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `user_role` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,4 +172,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-26 17:56:07
+-- Dump completed on 2023-03-25 17:08:52
