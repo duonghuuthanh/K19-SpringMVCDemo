@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<h1 class="text-center text-info">CHI TIẾT SẢN PHẨM</h1>
 <div class="row">
     <div class="col-md-5 col-xs-12">
         <img src="${product.image}" class="img-fluid" />

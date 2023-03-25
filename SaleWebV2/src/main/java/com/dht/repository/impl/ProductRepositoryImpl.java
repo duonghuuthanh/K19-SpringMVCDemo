@@ -40,33 +40,36 @@ public class ProductRepositoryImpl implements ProductRepository {
         Root root = q.from(Product.class);
         q.select(root);
 
-        List<Predicate> predicates = new ArrayList<>();
-        String kw = params.get("kw");
-        if (kw != null && !kw.isEmpty()) {
-            Predicate p = b.like(root.get("name").as(String.class),
-                    String.format("%%%s%%", kw));
-            predicates.add(p);
+        if (params != null) {
+            List<Predicate> predicates = new ArrayList<>();
+            String kw = params.get("kw");
+            if (kw != null && !kw.isEmpty()) {
+                Predicate p = b.like(root.get("name").as(String.class),
+                        String.format("%%%s%%", kw));
+                predicates.add(p);
+            }
+
+            String fromPrice = params.get("fromPrice");
+            if (fromPrice != null) {
+                Predicate p = b.greaterThanOrEqualTo(root.get("price"), Double.parseDouble(fromPrice));
+                predicates.add(p);
+            }
+
+            String toPrice = params.get("toPrice");
+            if (toPrice != null) {
+                Predicate p = b.lessThanOrEqualTo(root.get("price"), Double.parseDouble(toPrice));
+                predicates.add(p);
+            }
+
+            String cateId = params.get("categoryId");
+            if (cateId != null) {
+                Predicate p = b.equal(root.get("categoryId"), Integer.parseInt(cateId));
+                predicates.add(p);
+            }
+
+            q.where(predicates.toArray(Predicate[]::new));
         }
 
-        String fromPrice = params.get("fromPrice");
-        if (fromPrice != null) {
-            Predicate p = b.greaterThanOrEqualTo(root.get("price"), Double.parseDouble(fromPrice));
-            predicates.add(p);
-        }
-
-        String toPrice = params.get("toPrice");
-        if (toPrice != null) {
-            Predicate p = b.lessThanOrEqualTo(root.get("price"), Double.parseDouble(toPrice));
-            predicates.add(p);
-        }
-        
-        String cateId = params.get("categoryId");
-        if (cateId != null) {
-            Predicate p = b.equal(root.get("categoryId"), Integer.parseInt(cateId));
-            predicates.add(p);
-        }
-
-        q.where(predicates.toArray(Predicate[]::new));
         q.orderBy(b.desc(root.get("id")));
 
         Query query = s.createQuery(q);
@@ -84,7 +87,22 @@ public class ProductRepositoryImpl implements ProductRepository {
     public boolean addOrUpdateProduct(Product p) {
         Session s = factory.getObject().getCurrentSession();
         try {
-            s.save(p);
+            if (p.getId() > 0)
+                s.update(p);
+            else
+                s.save(p);
+            return true;
+        } catch (HibernateException ex) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteProduct(int id) {
+        Session s = factory.getObject().getCurrentSession();
+        Product p = this.getProductById(id);
+        try {
+            s.delete(p);
             return true;
         } catch (HibernateException ex) {
             return false;
