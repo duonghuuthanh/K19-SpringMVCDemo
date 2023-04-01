@@ -4,12 +4,16 @@
  */
 package com.dht.controllers;
 
+import com.dht.pojo.Cart;
 import com.dht.pojo.Category;
 import com.dht.pojo.Product;
 import com.dht.service.CategoryService;
 import com.dht.service.ProductService;
+import com.dht.utils.Utils;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,9 +37,10 @@ public class HomeController {
     private CategoryService categoryService;
     
     @ModelAttribute
-    public void commonAttributes(Model model) {
+    public void commonAttributes(Model model, HttpSession session) {
         List<Category> cates = this.categoryService.getCategories(); 
         model.addAttribute("categories", cates);
+        model.addAttribute("cartStats", Utils.cartStats((Map<Integer, Cart>) session.getAttribute("cart")));
     }
     
     @RequestMapping("/")
@@ -50,5 +55,11 @@ public class HomeController {
     public String productDetail(Model model, @PathVariable(value = "productId") int id) {
         model.addAttribute("product", this.productService.getProductById(id));
         return "product-detail";
+    }
+    
+    @GetMapping("/cart")
+    public String cart(HttpSession session, Model model) {
+        model.addAttribute("cart", (Map<Integer, Cart>) session.getAttribute("cart"));
+        return "cart";
     }
 }

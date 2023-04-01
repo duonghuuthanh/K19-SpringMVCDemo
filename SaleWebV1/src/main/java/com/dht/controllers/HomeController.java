@@ -4,12 +4,15 @@
  */
 package com.dht.controllers;
 
+import com.dht.pojo.Cart;
 import com.dht.pojo.Category;
 import com.dht.pojo.Product;
 import com.dht.service.CategoryService;
 import com.dht.service.ProductService;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,5 +54,17 @@ public class HomeController {
             @PathVariable(value = "productId") int id) {
         model.addAttribute("product", this.productService.getProductById(id));
         return "product-detail";
+    }
+    
+    @GetMapping(path = "/cart")
+    public String cart(Model model, HttpSession session) {
+        Map<Integer, Cart> carts = new HashMap<>();
+        carts.put(1, new Cart(1, "A", 123l, 2));
+        carts.put(3, new Cart(3, "A", 123l, 2));
+        
+        session.setAttribute("cart", carts);
+        
+        model.addAttribute("carts", (Map<Integer, Cart>) session.getAttribute("cart"));
+        return "cart";
     }
 }

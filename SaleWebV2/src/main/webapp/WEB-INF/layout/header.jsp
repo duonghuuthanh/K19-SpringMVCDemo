@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Trang chủ</a>
+                        <a class="nav-link" href="<c:url value="/" />">Trang chủ</a>
                     </li>
 
                     <c:forEach items="${categories}" var="c">
@@ -28,6 +28,9 @@
                             <a class="nav-link" href="${url}">${c.name}</a>
                         </li>
                     </c:forEach>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="<c:url value="/cart" />">&#128722; Giỏ hàng <span class="badge bg-danger cart-counter">${cartStats.totalQuantity}</span></a>
+                        </li>
                 </ul>
                  <c:url value="/" var="action" />
                 <form class="d-flex" action="${action}">

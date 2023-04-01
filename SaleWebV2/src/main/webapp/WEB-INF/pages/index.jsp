@@ -8,6 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
+<c:url value="/api/cart" var="endpoint" />
 <section class="container">
     <div class="row">
         <c:forEach items="${products}" var="p">
@@ -19,11 +20,13 @@
                         <h4 class="card-title">${p.name}</h4>
                         <p class="card-text">${p.price} VNĐ</p>
                         <a href="${detail}" class="btn btn-primary">Xem chi tiết</a>
-                        <a href="#" class="btn btn-danger">Đặt hàng</a>
+                        <a href="javascript:;" onclick="addItemToCart('${endpoint}', ${p.id}, '${p.name}', ${p.price})" class="btn btn-danger">Đặt hàng</a>
                     </div>
                 </div>
             </div>
         </c:forEach>
     </div>
 </section>
+
+<script src="<c:url value="/js/cart.js" />"></script>
 

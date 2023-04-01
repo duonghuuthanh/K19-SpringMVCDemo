@@ -28,6 +28,10 @@
                             <a class="nav-link" href="${url}">${c.name}</a>
                         </li>
                     </c:forEach>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-info" href="<c:url value="/cart" />">&#128722; Giỏ hàng</a>
+                    </li>
                 </ul>
                 <c:url value="/" var="action" />
                 <form class="d-flex" action="${action}">
