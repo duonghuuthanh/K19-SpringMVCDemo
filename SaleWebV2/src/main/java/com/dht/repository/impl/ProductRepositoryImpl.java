@@ -4,8 +4,12 @@
  */
 package com.dht.repository.impl;
 
+import com.dht.pojo.Cart;
+import com.dht.pojo.OrderDetail;
 import com.dht.pojo.Product;
+import com.dht.pojo.SaleOrder;
 import com.dht.repository.ProductRepository;
+import com.dht.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +22,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -31,6 +37,8 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
+    @Autowired
+    private UserRepository userRepo;
 
     @Override
     public List<Product> getProducts(Map<String, String> params) {
@@ -103,6 +111,32 @@ public class ProductRepositoryImpl implements ProductRepository {
         Product p = this.getProductById(id);
         try {
             s.delete(p);
+            return true;
+        } catch (HibernateException ex) {
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean addReceipt(Map<String, Cart> cart) {
+        try {
+            Session s = factory.getObject().getCurrentSession();
+
+            SaleOrder r = new SaleOrder();
+            
+            r.setUserId(userRepo.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+            s.save(r);
+
+            for (Cart c: cart.values()) {
+                OrderDetail d = new OrderDetail();
+                d.setNum(c.getQuantity());
+                d.setUnitPrice(c.getPrice());
+                d.setOrderId(r);
+                d.setProductId(this.getProductById(c.getId()));
+                s.save(d);
+            }
+            
             return true;
         } catch (HibernateException ex) {
             return false;

@@ -58,6 +58,10 @@ public class SaleOrder implements Serializable {
     private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
     private Set<OrderDetail> orderDetailSet;
+    
+    {
+        createdDate = new Date();
+    }
 
     public SaleOrder() {
     }

@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="se" uri="http://www.springframework.org/security/tags"  %>
 
 <header>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -28,10 +29,31 @@
                             <a class="nav-link" href="${url}">${c.name}</a>
                         </li>
                     </c:forEach>
-                    
+
                     <li class="nav-item">
-                        <a class="nav-link text-info" href="<c:url value="/cart" />">&#128722; Giỏ hàng</a>
+                        <a class="nav-link text-info" href="<c:url value="/cart" />">&#128722; Giỏ hàng <span class="badge bg-danger cart-counter">${cartStats.totalQuantity}</span></a>
                     </li>
+
+                    <c:choose>
+                        <c:when test="${pageContext.request.userPrincipal.name == null}">
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" href="<c:url value="/login" />">Đăng nhập</a>
+                            </li>
+                        </c:when>
+                        <c:when test="${pageContext.request.userPrincipal.name != null}">
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" href="<c:url value="/" />">Chào ${pageContext.request.userPrincipal.name}!</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-success" href="<c:url value="/logout" />">Đăng xuất</a>
+                            </li>
+                        </c:when>
+                    </c:choose>
+                    <se:authorize access="hasRole('ROLE_ADMIN')">
+                        <li class="nav-item">
+                            <a class="btn btn-danger" href="<c:url value="/admin/products" />">Quản lý sản phẩm</a>
+                        </li>
+                    </se:authorize>
                 </ul>
                 <c:url value="/" var="action" />
                 <form class="d-flex" action="${action}">

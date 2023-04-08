@@ -10,7 +10,6 @@ import com.dht.pojo.Product;
 import com.dht.service.CategoryService;
 import com.dht.service.ProductService;
 import com.dht.utils.Utils;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;

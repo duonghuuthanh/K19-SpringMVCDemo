@@ -6,6 +6,7 @@ package com.dht.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.dht.pojo.Cart;
 import com.dht.pojo.Product;
 import com.dht.repository.ProductRepository;
 import com.dht.service.ProductService;
@@ -56,6 +57,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean deleteProduct(int id) {
         return this.productRepo.deleteProduct(id);
+    }
+
+    @Override
+    public boolean addReceipt(Map<String, Cart> cart) {
+        if (cart == null)
+            return false;
+        
+        return this.productRepo.addReceipt(cart);
     }
     
 }

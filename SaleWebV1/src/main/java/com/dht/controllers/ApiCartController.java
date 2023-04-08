@@ -5,10 +5,12 @@
 package com.dht.controllers;
 
 import com.dht.pojo.Cart;
+import com.dht.service.ProductService;
 import com.dht.utils.Utils;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class ApiCartController {
+    @Autowired
+    private ProductService productService;
+    
     @PostMapping(value = "/cart")
     public ResponseEntity<Map<String, String>> addToCart(@RequestBody Cart c, HttpSession session) {
         Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
@@ -68,5 +73,15 @@ public class ApiCartController {
         session.setAttribute("cart", cart);
         
         return new ResponseEntity<>(Utils.cartStats(cart), HttpStatus.OK);
+    }
+    
+    @PostMapping("/pay")
+    public ResponseEntity pay(HttpSession session) {
+        if (this.productService.addReceipt((Map<String, Cart>) session.getAttribute("cart"))) {
+            session.removeAttribute("cart");
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 }

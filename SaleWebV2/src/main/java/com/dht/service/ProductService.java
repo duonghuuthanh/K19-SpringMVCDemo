@@ -4,6 +4,7 @@
  */
 package com.dht.service;
 
+import com.dht.pojo.Cart;
 import com.dht.pojo.Product;
 import java.util.List;
 import java.util.Map;
@@ -17,4 +18,5 @@ public interface ProductService {
     Product getProductById(int id);
     boolean addOrUpdateProduct(Product p);
     boolean deleteProduct(int id);
+    boolean addReceipt(Map<String, Cart> cart);
 }

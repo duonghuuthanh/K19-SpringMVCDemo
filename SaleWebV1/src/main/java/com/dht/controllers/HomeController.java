@@ -9,7 +9,7 @@ import com.dht.pojo.Category;
 import com.dht.pojo.Product;
 import com.dht.service.CategoryService;
 import com.dht.service.ProductService;
-import java.util.HashMap;
+import com.dht.utils.Utils;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
@@ -36,9 +36,10 @@ public class HomeController {
     private CategoryService categoryService;
     
     @ModelAttribute
-    public void commonAttributes(Model model) {
+    public void commonAttributes(Model model, HttpSession session) {
         List<Category> cates = this.categoryService.getCategories();
         model.addAttribute("categories", cates);
+        model.addAttribute("cartStats", Utils.cartStats((Map<Integer, Cart>) session.getAttribute("cart")));
     }
 
     @GetMapping(path = {"/", "/products"})
@@ -58,12 +59,6 @@ public class HomeController {
     
     @GetMapping(path = "/cart")
     public String cart(Model model, HttpSession session) {
-        Map<Integer, Cart> carts = new HashMap<>();
-        carts.put(1, new Cart(1, "A", 123l, 2));
-        carts.put(3, new Cart(3, "A", 123l, 2));
-        
-        session.setAttribute("cart", carts);
-        
         model.addAttribute("carts", (Map<Integer, Cart>) session.getAttribute("cart"));
         return "cart";
     }

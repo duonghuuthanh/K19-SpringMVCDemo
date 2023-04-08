@@ -6,6 +6,7 @@ package com.dht.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.dht.pojo.Cart;
 import com.dht.pojo.Product;
 import com.dht.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean deleteProduct(int id) {
         return this.productRepository.deleteProduct(id);
+    }
+
+    @Override
+    public boolean addReceipt(Map<String, Cart> cart) {
+        if (cart != null)
+            return this.productRepository.addReceipt(cart);
+        return false;
     }
 
 }
