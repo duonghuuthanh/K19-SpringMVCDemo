@@ -6,11 +6,12 @@ package com.dht.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.dht.handlers.LoginSuccessHandler;
+import com.dht.handlers.LogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,12 +30,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = {
     "com.dht.controllers",
     "com.dht.repository",
-    "com.dht.service"
+    "com.dht.service",
+    "com.dht.handlers",
 })
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private LoginSuccessHandler loginHandler;
+    @Autowired
+    private LogoutSuccessHandler logoutHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -48,14 +54,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http)
             throws Exception {
-        http.formLogin()
+        http.formLogin().loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password");
         
-        http.formLogin().defaultSuccessUrl("/")
-                .failureUrl("/login?error");
+//        http.formLogin().defaultSuccessUrl("/")
+//                .failureUrl("/login?error");
+        http.formLogin().successHandler(this.loginHandler).failureUrl("/login?error");
         
-        http.logout().logoutSuccessUrl("/login");
+//        http.logout().logoutSuccessUrl("/login");
+        http.logout().addLogoutHandler(this.logoutHandler);
         
         http.exceptionHandling()
                 .accessDeniedPage("/login?accessDenied");

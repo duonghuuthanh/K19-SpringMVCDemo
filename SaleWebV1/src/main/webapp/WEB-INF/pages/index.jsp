@@ -9,6 +9,7 @@
 
 
 <c:url value="/api/cart" var="endpoint" />
+
 <section class="container">
     <div class="row">
         

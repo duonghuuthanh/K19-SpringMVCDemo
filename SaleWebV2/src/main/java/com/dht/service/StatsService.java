@@ -4,13 +4,14 @@
  */
 package com.dht.service;
 
-import com.dht.pojo.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author admin
  */
-public interface UserService extends UserDetailsService{
-    User getUserByUsername(String username);
+public interface StatsService {
+    List<Object[]> statsCategory();
+    List<Object[]> statsRevenue(Date fromDate, Date toDate);
 }

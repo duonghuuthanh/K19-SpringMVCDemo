@@ -61,4 +61,9 @@ public class HomeController {
         model.addAttribute("cart", (Map<Integer, Cart>) session.getAttribute("cart"));
         return "cart";
     }
+    
+    @GetMapping("/login")
+    public String loginView() {
+        return "login";
+    }
 }

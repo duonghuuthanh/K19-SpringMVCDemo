@@ -30,28 +30,31 @@
                         </li>
                     </c:forEach>
                     <li class="nav-item">
-                        <a class="nav-link text-danger" href="<c:url value="/cart" />">&#128722; Giỏ hàng <span class="badge bg-danger cart-counter">${cartStats.totalQuantity}</span></a>
+                        <a class="nav-link text-info" href="<c:url value="/cart" />">&#128722; Giỏ hàng <span class="badge bg-danger cart-counter">${cartStats.totalQuantity}</span></a>
                     </li>
 
                     <c:choose>
                         <c:when test="${pageContext.request.userPrincipal.name == null}">
                             <li class="nav-item">
-                                <a class="nav-link text-danger" href="<c:url value="/login" />">Đăng nhập</a>
+                                <a class="nav-link text-info" href="<c:url value="/login" />">Đăng nhập</a>
                             </li>
                         </c:when>
                         <c:when test="${pageContext.request.userPrincipal.name != null}">
                             <li class="nav-item">
-                                <a class="nav-link text-danger" href="<c:url value="/" />">Chào ${pageContext.request.userPrincipal.name}!!!</a>
+                                <a class="nav-link text-danger" href="<c:url value="/" />">Chào ${pageContext.session.getAttribute("currentUser").firstName} ${pageContext.session.getAttribute("currentUser").lastName}!!!</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-danger" href="<c:url value="/logout" />">Đăng xuất</a>
+                                <a class="nav-link text-success" href="<c:url value="/logout" />">Đăng xuất</a>
                             </li>
                         </c:when>
                     </c:choose>
 
                     <se:authorize access="hasRole('ROLE_ADMIN')">
                         <li class="nav-item">
-                            <a class="btn btn-danger" href="<c:url value="/admin/products" />">Quản lý sản phẩm</a>
+                            <a class="btn btn-danger m-1" href="<c:url value="/admin/products" />">Quản lý sản phẩm</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-success m-1" href="<c:url value="/admin/stats" />">Thống kê</a>
                         </li>
                     </se:authorize> 
                 </ul>

@@ -42,7 +42,7 @@
                         </c:when>
                         <c:when test="${pageContext.request.userPrincipal.name != null}">
                             <li class="nav-item">
-                                <a class="nav-link text-danger" href="<c:url value="/" />">Chào ${pageContext.request.userPrincipal.name}!</a>
+                                <a class="nav-link text-danger" href="<c:url value="/" />">Chào ${pageContext.session.getAttribute("currentUser").firstName} ${pageContext.session.getAttribute("currentUser").lastName}!</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-success" href="<c:url value="/logout" />">Đăng xuất</a>
@@ -50,8 +50,11 @@
                         </c:when>
                     </c:choose>
                     <se:authorize access="hasRole('ROLE_ADMIN')">
-                        <li class="nav-item">
+                        <li class="nav-item m-1">
                             <a class="btn btn-danger" href="<c:url value="/admin/products" />">Quản lý sản phẩm</a>
+                        </li>
+                        <li class="nav-item m-1">
+                             <a class="btn btn-success" href="<c:url value="/admin/stats" />">Thống kê</a>
                         </li>
                     </se:authorize>
                 </ul>

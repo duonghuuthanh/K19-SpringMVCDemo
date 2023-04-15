@@ -26,5 +26,13 @@
         <put-attribute name="title" value="Giỏ hàng" />
         <put-attribute name="content" value="/WEB-INF/pages/cart.jsp" />
     </definition>
+    <definition name="stats" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê" />
+        <put-attribute name="content" value="/WEB-INF/pages/stats.jsp" />
+    </definition>
+    <definition name="login" extends="baseLayout">
+        <put-attribute name="title" value="Đăng nhập" />
+        <put-attribute name="content" value="/WEB-INF/pages/login.jsp" />
+    </definition>
 </tiles-definitions>
 

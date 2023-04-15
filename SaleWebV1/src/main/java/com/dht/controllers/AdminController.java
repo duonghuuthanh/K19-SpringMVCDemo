@@ -6,6 +6,7 @@ package com.dht.controllers;
 
 import com.dht.pojo.Product;
 import com.dht.service.ProductService;
+import com.dht.service.StatsService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private StatsService statsService;
     
     @ModelAttribute
     public void commonAttributes(Model model) {
@@ -57,5 +60,12 @@ public class AdminController {
     public String updateProduct(Model model, @PathVariable(value = "productId") int id) {
         model.addAttribute("product", this.productService.getProductById(id));
         return "products";
+    }
+    
+    @GetMapping("/stats")
+    public String stats(Model model) {
+        model.addAttribute("cateStats", this.statsService.statsCategory());
+        model.addAttribute("revenues", this.statsService.statsRevenue(null, null));
+        return "stats";
     }
 }
